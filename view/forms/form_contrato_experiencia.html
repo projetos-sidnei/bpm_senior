@@ -35,6 +35,7 @@
 <script src="/model/data/data_form_contrato_experiencia.js"></script>
 <script src="/model/services/get_filial.js"></script>
 <script src="/controller/main_controller.js"></script>
+<script src="/controller/bpm_form_contrato_experiencia.js"></script>
 </head>
 <body style="margin: revert " onload="main()">
   
@@ -89,8 +90,8 @@
           </div>
       </div>
       <div class="form-check mt-3">
-        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-        <label class="form-check-label" for="flexCheckDefault">
+        <input class="form-check-input" type="checkbox" value="" id="idCHKAV01">
+        <label class="form-check-label" for="idCHKAV01">
           2ª Avaliação
         </label>
       </div>
@@ -112,25 +113,25 @@
     </section>
     <section class="row d-flex justify-content-center mt-0">
       <div class="col-md-11">
-        <p class="text-start fs-3">INFORMAÇÕES GERAIS:</p>
-        <div class="col-md-11 mb-3">
-          <label for="nomAva" class="form-label mb-1">Qual o aspecto mais favorável do funcionário?</label>
-          <input type="text" class="form-control" id="nomAva"/>
+        <p class="text-start fs-5">INFORMAÇÕES GERAIS:</p>
+        <div class="col-md-11 mb-2">
+          <label for="aspFav" class="form-label mb-1">Qual o aspecto mais favorável do funcionário?</label>
+          <input type="text" class="form-control" id="aspFav"/>
         </div>
-        <div class="col-md-11 mb-3">
-          <label for="nomFun" class="form-label mb-1">Qual o aspecto que mais prejudica o funcionário?</label>
-          <input type="text" class="form-control" id="nomFun"/>
+        <div class="col-md-11 mb-2">
+          <label for="aspPrej" class="form-label mb-1">Qual o aspecto que mais prejudica o funcionário?</label>
+          <input type="text" class="form-control" id="aspPrej"/>
         </div>
-        <div class="col-md-11 mb-3">
-          <label for="tipCar" class="form-label mb-1">Que orientação deverá ser dada ao funcionário para corrigir-se?</label>
-          <input type="text" class="form-control" id="tipCar"/>
+        <div class="col-md-11 mb-4">
+          <label for="oriFunc" class="form-label mb-1">Que orientação deverá ser dada ao funcionário para corrigir-se?</label>
+          <input type="text" class="form-control" id="oriFunc"/>
         </div>
       </div>
     </section>
-    <section class="row d-flex justify-content-center mt-0">
+    <section class="row d-flex justify-content-center mt-0 mb-4">
       <div class="col-md-11">
-        <p class="text-start fs-3">ESPAÇO DO RH:</p>
-        <p class="text-start fs-5">DE MANEIRA GERAL, COMO O FUNCIONÁRIO PODE SER CLASSIFICADO?</p>
+        <p class="text-start fs-5">ESPAÇO DO RH:</p>
+        <p class="text-start fs-6">DE MANEIRA GERAL, COMO O FUNCIONÁRIO PODE SER CLASSIFICADO?</p>
         <div class="form-check mt-1">
           <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHKRH01">
           <label class="ml-6 form-check-label"  for="idCHKRH01">
@@ -147,6 +148,23 @@
           <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHKRH03">
           <label class="ml-6 form-check-label"  for="idCHKRH03">
             Não atende as necessidades da empresa.
+          </label>
+        </div>
+      </div>
+    </section>
+    <section class="row d-flex justify-content-center mt-0 mb-4">
+      <div class="col-md-11">
+        <p class="text-start fs-5">SÍNTESE:</p>
+        <div class="form-check mt-1">
+          <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHKSI01">
+          <label class="ml-6 form-check-label"  for="idCHKSI01">
+            Efetivar.
+          </label>
+        </div>
+        <div class="form-check mt-1">
+          <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHKSI02">
+          <label class="ml-6 form-check-label"  for="idCHKSI02">
+            Demitir.
           </label>
         </div>
       </div>
