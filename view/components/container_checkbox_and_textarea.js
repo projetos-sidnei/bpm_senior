@@ -1,10 +1,10 @@
-const getElement = (...queries) => document.getElementById(...queries);
+
 function onLoadCheckboxAndTextArea() {
   var section = getElement('id-check-textarea');
   var htmlComponent;
   var htmlCheckbox;
   var htmlTextArea;
-
+  var nRandom = rendomId();
   dataContratoExperiencia.map((value) => { 
     /** CRIA A DIV COM O TITULO E O ICONE DE DUVIDA COM UM TOOLTIP */
     htmlComponent = `  
@@ -26,8 +26,8 @@ function onLoadCheckboxAndTextArea() {
       htmlCheckbox = `
       <div class="col-md-11">
         <div class="form-check mt-1">
-          <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHK${index}">
-          <label class="ml-6 form-check-label"  for="idCHK${index}">
+          <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHK${value.sigla}${index+1}">
+          <label class="ml-6 form-check-label"  for="idCHK${value.sigla}${index + 1}">
             ${item}
           </label>
         </div>
@@ -45,4 +45,19 @@ function onLoadCheckboxAndTextArea() {
     `;
     section.innerHTML += htmlTextArea ;
   });  
+  console.log(rendomId());
+}
+
+function rendomId() {
+  var numeroEncontrado = [];
+  var valorMaximo = 100;
+  if (numeroEncontrado.length == valorMaximo) {
+    return;
+  }
+  var opcao = Math.ceil(Math.random() * valorMaximo + 1);
+  while (numeroEncontrado.indexOf(opcao) >= 0) {
+    numeroEncontrado = Math.ceil(Math.random() * valorMaximo + 1);
+  }
+  numeroEncontrado.push(opcao);
+  return parseInt(numeroEncontrado);
 }

@@ -1,0 +1,1 @@
+const getElement = (...queries) => document.getElementById(...queries);

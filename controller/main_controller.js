@@ -1,5 +1,4 @@
 
 function main() {
   onLoadCheckboxAndTextArea();
-  //loadOptionsFiliais();
 }

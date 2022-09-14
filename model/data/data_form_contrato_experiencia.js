@@ -1,6 +1,7 @@
 const dataContratoExperiencia = [
   {
     id: '01',
+    sigla:'ACT',
     title: 'ADAPTAÇÃO DO COLABORADOR AO TRABALHO:',
     tooltip:'Como o funcionário está interagindo ao trabalho.',
     checkbox: [
@@ -11,6 +12,7 @@ const dataContratoExperiencia = [
   },
   {
     id: '02',
+    sigla:'OEP',
     title: 'ORGANIZAÇÃO E PLANEJAMENTO:',
     tooltip:'Considera estabelecer prioridades em planejar ações da melhor forma para execução das tarefas.',
     checkbox: [
@@ -21,6 +23,7 @@ const dataContratoExperiencia = [
   },
   {
     id: '03',
+    sigla:'ACE',
     title: 'ATENDIMENTO AO CLIENTE EXTERNO:',
     tooltip:'Entende-se como externo qualquer outra pessoa fora da sua sala de trabalho.',
     checkbox: [
@@ -31,6 +34,7 @@ const dataContratoExperiencia = [
   },
   {
     id: '04',
+    sigla:'CDA',
     title: 'CAPACIDADE DE APRENDIZAGEM:',
     tooltip:'É a facilidade com a qual consegue perceber pontos importantes daquilo que lhe está sendo ensinado',
     checkbox: [
@@ -41,6 +45,7 @@ const dataContratoExperiencia = [
   },
   {
     id: '05',
+    sigla:'RES',
     title: 'RESPONSABILIDADE:',
     tooltip:'Preocupação com os compromissos assumidos, empenho na execução das atividades e cuidado com os bens empresa.',
     checkbox: [
@@ -51,6 +56,7 @@ const dataContratoExperiencia = [
   },
   {
     id: '06',
+    sigla:'COE',
     title: 'COOPERAÇÃO/ENVOLVIMENTO:',
     tooltip:'Considera a colaboração com os demais colaboradores e o envolvimento no desempenho das funções.',
     checkbox: [
@@ -61,6 +67,7 @@ const dataContratoExperiencia = [
   },
   {
     id: '07',
+    sigla:'PRE',
     title: 'PRODUTIVIDADE/EFICIÊNCIA:',
     tooltip:'Avalia a quantidade de trabalho produzido, dentro dos padrões adequados para função.',
     checkbox: [
@@ -71,6 +78,7 @@ const dataContratoExperiencia = [
   },
   {
     id: '08',
+    sigla:'CDT',
     title: 'CONHECIMENTO DO TRABALHO:',
     tooltip:'Deve ser avaliado o conhecimento que o colaborador tem sobre o trabalho que executa.',
     checkbox: [
@@ -81,6 +89,7 @@ const dataContratoExperiencia = [
   },
   {
     id: '09',
+    sigla:'QUA',
     title: 'QUALIDADE:',
     tooltip:'Deve ser avaliado a capacidade do colaborador em executar suas atividades sem falhas.',
     checkbox: [

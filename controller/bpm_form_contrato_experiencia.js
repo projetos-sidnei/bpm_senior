@@ -1,3 +1,4 @@
+
 //Inicialização da API do workflow
 this.workflowCockpit = workflowCockpit({
   init: _init,
@@ -17,8 +18,8 @@ function _init(data, info) {
     .getUserData()
     .then(function (user) {
       // Usuário logado
-      document.getElementById("nomFun").setAttribute("value", user.fullname);
-      document.getElementById("emaFun").setAttribute("value", user.email);
+      getElement("nomFun").setAttribute("value", user.fullname);
+      getElement("emaFun").setAttribute("value", user.email);
     })
     .then(function () {
       info.getPlatformData().then(function (platformData) {
@@ -38,15 +39,21 @@ function _init(data, info) {
       }
 
       console.log("Carregando Dados", map);
-      const nomDes = map.get("nomDes");
-      const desMot = map.get("desMot");
-      const estDes = map.get("estDes");
-      const numCep = map.get("numCep");
+      const nomFil = map.get("nomFil");
+      const nomAva = map.get("nomAva");
+      const nomFun = map.get("nomFun");
+      const tipCar = map.get("tipCar");
+      const tipSet = map.get("tipSet");
+      const dateCur = map.get("dateCur");
+      const idCHKAV01 = map.get("idCHKAV01");
 
-      document.getElementById("nomDes").setAttribute("value", nomDes);
-      document.getElementById("desMot").setAttribute("value", desMot);
-      document.getElementById("estDes").value = estDes;
-      document.getElementById("numCep").setAttribute("value", numCep);
+      getElement("nomFil").setAttribute("value", nomFil);
+      getElement("nomAva").setAttribute("value", nomAva);
+      getElement("nomFun").value = nomFun;
+      getElement("tipCar").setAttribute("value", tipCar);
+      getElement("tipSet").setAttribute("value", tipSet);
+      getElement("dateCur").setAttribute("value", dateCur);
+      getElement("idCHKAV01").setAttribute("idCHKAV01", dateCur);
     }
   });
 }
@@ -54,17 +61,18 @@ function _init(data, info) {
 // Essa função é chamada quando o usuário clicar no botão 'Enviar'
 function _saveData(data, info) {
   if (!isFormValid()) {
-    document.getElementById("gridCheck").setAttribute("class", "form-check-input is-invalid");
+    getElement("gridCheck").setAttribute("class", "form-check-input is-invalid");
     throw new Error("Os dados informados não são válidos.");
   }
   let newData = {};
-  let selectEstado = document.getElementById("estDes");
+  let selectEstado = getElement("nomFil");
 
-  newData.desMot = document.getElementById("desMot").value;
-  newData.nomDes = document.getElementById("nomDes").value;
-  newData.estDes = selectEstado.options[selectEstado.selectedIndex].value;
-  newData.numCep = document.getElementById("numCep").value;
-  newData.check = document.getElementById("gridCheck").value;
+  newData.nomAva = getElement("nomAva").value;
+  newData.nomFun = getElement("nomFun").value;
+  newData.nomFil = selectEstado.options[selectEstado.selectedIndex].value;
+  newData.tipCar = getElement("tipCar").value;
+  newData.tipSet = getElement("tipSet").value;
+  newData.dateCur = getElement("dateCur").value;
   console.log(newData);
   return {
     formData: newData,
