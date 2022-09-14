@@ -1,10 +1,10 @@
 
 //Inicialização da API do workflow
-this.workflowCockpit = workflowCockpit({
-  init: _init,
-  onSubmit: _saveData,
-  onError: _rollback,
-});
+// this.workflowCockpit = workflowCockpit({
+//   init: _init,
+//   onSubmit: _saveData,
+//   onError: _rollback,
+// });
 
 // Função init é chamada ao abrir o formulário
 function _init(data, info) {
