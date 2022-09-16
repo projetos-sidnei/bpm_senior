@@ -80,12 +80,14 @@ function _rollback(data, info) {
 
 function isFormValid() {
   const isChecked = document.getElementById("gridCheck").checked;  
+  console.log(isChecked);
   return isChecked;
 }
 
 // Handler de eventos do checkbox
 function onSelect() {
   const isChecked = document.getElementById("gridCheck").checked;  
+  console.log(isChecked);
   if (isChecked) {
     document.getElementById("gridCheck").setAttribute("class", "form-check-input is-valid");
   } else {

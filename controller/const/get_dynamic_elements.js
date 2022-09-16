@@ -1,8 +1,8 @@
-function getDynamicElement() {
-  var inputs = document.getElementsByTagName("input"); //("[id^=" + 'idCHK]');
-  var idInputs = [];
-  for (let i = 0; i < inputs.length; i++){
-    idInputs.push(inputs[i]);
+function getDynamicElement(element) {
+  var elements = document.getElementsByTagName(element); //("[id^=" + 'idCHK]');
+  var idElements = [];
+  for (let i = 0; i < elements.length; i++){
+    idElements.push(elements[i]);
   }
-  return idInputs;
+  return idElements;
 }

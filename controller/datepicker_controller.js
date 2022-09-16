@@ -1,9 +1,9 @@
 $(function () {
-  $('#dateCur').datepicker(
+  $('#dateC').datepicker(
     {
-    format: 'dd/mm/yyyy',
-    startDate: '+0',
-    language:'pt-BR'
-    });
+      format: 'dd/mm/yyyy',
+      startDate: '+0',
+      language: 'pt-BR',
+    }).datepicker('setDate', 'now');
 })
 

@@ -44,7 +44,7 @@
   
   <main>
     <!-- FORMULÁRIO PARA AVALIAÇÃO DE EXPERIÊNCIA -->
-   <form id="form-contrato-experiencia " class="row  g-3" novalidate>
+   <form id="form-contrato-experiencia " class="row g-3 needs-validation" novalidate>
 <!-- SEÇÃO DE INPUTS -->
     <section class="row d-flex justify-content-center">
       <div class="col-lg-10 mt-4 mb-4">
@@ -53,7 +53,7 @@
       <div class="col-md-11 mb-3 ml-5 ">
         <label for="nomFil" class="form-label mb-1">UNIDADE/LOJA:</label>
         <select id="nomFil" class="form-select">
-          <option selected>Selecione...</option>
+          <option selected disabled value="">Selecione...</option>
           <option value="100 - MS - Dourados">100 - MS - Dourados</option>
           <option value="101 - MS - Campo Grande">101 - MS - Campo Grande</option>
           <option value="200 - MT - Varzea Grande">200- MT - Varzea Grande</option>
@@ -64,39 +64,63 @@
           <option value="302 - MS - Rio Branco">302 - MS - Rio Branco</option>
           
         </select>
+        <div class="invalid-feedback">
+          Este campo precisa ser preenchido.
+        </div>
       </div>
       <div class="col-md-11 mb-3">
         <label for="nomAva" class="form-label mb-1">NOME DO AVALIADOR:</label>
         <input type="text" class="form-control" id="nomAva"/>
+        <div class="invalid-feedback">
+          Este campo precisa ser preenchido.
+        </div>
       </div>
       <div class="col-md-11 mb-3">
         <label for="nomFun" class="form-label mb-1">CÓDIGO E NOME DO FUNCIONÁRIO:</label>
         <input type="text" class="form-control" id="nomFun"/>
+        <div class="invalid-feedback">
+          Este campo precisa ser preenchido.
+        </div>
       </div>
       <div class="col-md-11 mb-3">
         <label for="tipCar" class="form-label mb-1">CARGO:</label>
         <input type="text" class="form-control" id="tipCar"/>
+        <div class="invalid-feedback">
+          Este campo precisa ser preenchido.
+        </div>
       </div>
       <div class="col-md-11 mb-3">
         <label for="tipSet" class="form-label mb-1">SETOR:</label>
         <input type="text" class="form-control" id="tipSet"/>
+        <div class="invalid-feedback">
+          Este campo precisa ser preenchido.
+        </div>
       </div>
       <div class="col-md-11">
-        <label for="dateCur" class="form-label mb-1">DATA ATUAL:</label>
-        <div class="input-group date" >
-          <input type="text" class="form-control" id="dateCur">
-          <div class="input-group-addon ">
-              <svg  class="pr-2" xmlns="http://www.w3.org/2000/svg" width="40" height="34" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
-                <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
-                <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
-              </svg>
-          </div>
+        <div class="col-md-3">
+          <label for="dateCur" class="form-label mb-1">DATA ATUAL:</label>
+          <div class="input-group date" >
+            <input type="date" class="form-control" id="dateCur" placeholder="DD/MM/AAAA" >
+            <!-- <div class="input-group-addon ">
+                <svg  class="pr-2" xmlns="http://www.w3.org/2000/svg" width="40" height="34" fill="currentColor" class="bi bi-calendar3" viewBox="0 0 16 16">
+                  <path d="M14 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2zM1 3.857C1 3.384 1.448 3 2 3h12c.552 0 1 .384 1 .857v10.286c0 .473-.448.857-1 .857H2c-.552 0-1-.384-1-.857V3.857z"/>
+                  <path d="M6.5 7a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm-9 3a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2zm3 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                </svg>
+            </div> -->
+            <div class="invalid-feedback">
+              Este campo precisa ser preenchido.
+            </div>
+        </div>
+        
       </div>
       <div class="form-check mt-3">
         <input class="form-check-input" type="checkbox" value="" id="idCHKAV1">
         <label class="form-check-label" for="idCHKAV1">
           2ª Avaliação
         </label>
+        <div class="invalid-feedback">
+          Esta opção deve estar marcada.
+        </div>
       </div>
     </section>
     <!-- SEÇÃO DE INSTRUÇÃO DE PREENCHIMENTO -->
@@ -118,16 +142,25 @@
       <div class="col-md-11">
         <p class="text-start fs-5">INFORMAÇÕES GERAIS:</p>
         <div class="col-md-11 mb-2">
-          <label for="aspFav" class="form-label mb-1">Qual o aspecto mais favorável do funcionário?</label>
-          <input type="text" class="form-control" id="aspFav"/>
+          <label for="infGer01" class="form-label mb-1">Qual o aspecto mais favorável do funcionário?</label>
+          <input type="text" class="form-control" id="infGer01" required/>
+          <div class="invalid-feedback">
+            Este campo precisa ser preenchido.
+          </div>
         </div>
         <div class="col-md-11 mb-2">
-          <label for="aspPrej" class="form-label mb-1">Qual o aspecto que mais prejudica o funcionário?</label>
-          <input type="text" class="form-control" id="aspPrej"/>
+          <label for="infGer02" class="form-label mb-1">Qual o aspecto que mais prejudica o funcionário?</label>
+          <input type="text" class="form-control" id="infGer02" required/>
+          <div class="invalid-feedback">
+            Este campo precisa ser preenchido.
+          </div>
         </div>
         <div class="col-md-11 mb-4">
-          <label for="oriFunc" class="form-label mb-1">Que orientação deverá ser dada ao funcionário para corrigir-se?</label>
-          <input type="text" class="form-control" id="oriFunc"/>
+          <label for="infGer03" class="form-label mb-1">Que orientação deverá ser dada ao funcionário para corrigir-se?</label>
+          <input type="text" class="form-control" id="infGer03" required/>
+          <div class="invalid-feedback">
+            Este campo precisa ser preenchido.
+          </div>
         </div>
       </div>
     </section>
