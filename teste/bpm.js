@@ -29,6 +29,7 @@ function _init(data, info) {
 
   // Retorna os dados que já foram previamente preenchidos no formulário
   info.getInfoFromProcessVariables().then(function (data) {
+    console.log('d:', data);
     // Somente recupera os dados caso não seja a criação de uma tarefa (somente se estiver tratando a tarefa)
     if (!info.isRequestNew() && Array.isArray(data)) {
       var map = new Map();
@@ -37,16 +38,16 @@ function _init(data, info) {
         map.set(data[i].key, data[i].value);
       }
 
-      console.log("Carregando Dados", map);
+      console.log("Carregando Dados:", map);
       const nomDes = map.get("nomDes");
       const desMot = map.get("desMot");
       const estDes = map.get("estDes");
       const numCep = map.get("numCep");
 
-      document.getElementById("nomDes").setAttribute("value", nomDes);
-      document.getElementById("desMot").setAttribute("value", desMot);
+      document.getElementById("nomDes").value = nomDes;
+      document.getElementById("desMot").value = desMot;
       document.getElementById("estDes").value = estDes;
-      document.getElementById("numCep").setAttribute("value", numCep);
+      document.getElementById("numCep").value = numCep;
     }
   });
 }
@@ -65,7 +66,7 @@ function _saveData(data, info) {
   newData.estDes = selectEstado.options[selectEstado.selectedIndex].value;
   newData.numCep = document.getElementById("numCep").value;
   newData.check = document.getElementById("gridCheck").value;
-  console.log(newData);
+  console.log('newData',newData);
   return {
     formData: newData,
   };
@@ -80,14 +81,14 @@ function _rollback(data, info) {
 
 function isFormValid() {
   const isChecked = document.getElementById("gridCheck").checked;  
-  console.log(isChecked);
+  console.log('isChecked:',isChecked);
   return isChecked;
 }
 
 // Handler de eventos do checkbox
 function onSelect() {
   const isChecked = document.getElementById("gridCheck").checked;  
-  console.log(isChecked);
+  console.log('onSelect:',isChecked);
   if (isChecked) {
     document.getElementById("gridCheck").setAttribute("class", "form-check-input is-valid");
   } else {

@@ -1,9 +1,14 @@
+function createSelectOptions() {
+
+}
 
 function onLoadCheckboxAndTextArea() {
   var section = getElement('id-check-textarea');
   var htmlComponent;
   var htmlCheckbox;
   var htmlTextArea;
+
+  // loadOptions();
   /** SETA OS CHECKBOXS NA SEÇÃO ESPAÇÕ RH PARA MARCADO, ISSO OBRIGA O USUÁRIO
    * A ESCOLHER UMA OPÇÃO OU A PRIMEIRA FICA ATIVADA SEMPRE
    */
@@ -12,11 +17,17 @@ function onLoadCheckboxAndTextArea() {
   getElement('idCHKRH01').checked = true;
   getElement('idCHKRH01').setAttribute("class", "form-check-input is-valid");
 
-    let dt = new Date();
-    console.log(dt.toLocaleDateString());
-    getElement('dateCur').value = dt.toLocaleDateString();
+  /** CONVERTE A DATA LOCAL EM DATA NO FORMATO YYYY-MM-DD */
+  let dtNow = new Date().toISOString().slice(0, 10);
+  //BLOQUEIA DATAS ANTERIOS A DATA ATUAL NO CALENDARIO VISIVEL
+  getElement('dateCur').setAttribute('min', dtNow);
+  //SETA A DATA ATUAL PARA O USUÁRIO
+  getElement('dateCur').value = dtNow;
 
-
+  /**
+   * O LOOP VARRE O ARQUIVO DATA NA PASTA MODEL/DATA E GERA OS CHECKBOXS E TEXTAREAS
+   * DINAMINCAMENTE.
+   */
   dataContratoExperiencia.map((value) => {
     /** CRIA A DIV COM O TITULO E O ICONE DE DUVIDA COM UM TOOLTIP */
     htmlComponent = `  
@@ -42,6 +53,9 @@ function onLoadCheckboxAndTextArea() {
           <label class="ml-6 form-check-label"  for="idCHK${value.sigla}${index + 1}">
             ${item}
           </label>
+          <div class="invalid-feedback">
+          Este campo precisa ser preenchido.
+        </div>
         </div>
       </div>
     `;
@@ -60,27 +74,31 @@ function onLoadCheckboxAndTextArea() {
   validationInputText();
   isCheckBoxChecked();
   eventTextArea();
+
 }
 
 /** FUNÇÃO PARA VALIDAR SE OS CHECKBOX FORAM MARCADOS */
 function isCheckBoxChecked() {
   //FUNÇÃO GETDYNAMICELMENTE RECUPERA O ELMENTE PASSADO NO PARAMETRO
   const checkbox = getDynamicElement('input').filter(input => input.type.includes('checkbox'));
-  checkbox.forEach((input) => {
+  var isChecked;
+  isChecked = checkbox.map((input) => {
     input.onclick = () => {
       input.onchange = function () {
-        var isChecked = input.checked;
+        isChecked = input.checked;
         if (isChecked) {
+          getElementsTxt();
           input.setAttribute("class", "form-check-input is-valid");
         } else if (input.id === 'idCHKAV1') {
+          getElementsTxt();
           input.setAttribute("class", "form-check-input is-invalid");
         } else {
+          getElementsTxt();
           input.setAttribute("class", "form-check-input");
         }
         checkboxEqualRadioButton(input);
       }
     };
-
   });
 }
 
@@ -88,11 +106,11 @@ function isCheckBoxChecked() {
 /** ESSA FUNÇÃO VALIDA O FUNCIONAMENTO DOS CHECKBOXS DA SEÇÃO
  * ESPAÇO RH PARA FUNCIONAR IGUAL AO RADIO BUTTON.
  */
-function checkboxEqualRadioButton(idInput) {
+function checkboxEqualRadioButton(input) {
 
-  switch (idInput.id) {
+  switch (input.id) {
     case 'idCHKSI01':
-      if (!idInput.id.checked) {
+      if (!input.id.checked) {
         getElement('idCHKSI01').checked = true;
         getElement('idCHKSI01').setAttribute("class", "form-check-input is-valid");
       }
@@ -100,14 +118,14 @@ function checkboxEqualRadioButton(idInput) {
       getElement('idCHKSI02').setAttribute("class", "form-check-input");
       return getElement('idCHKSI02').checked = false;
     case 'idCHKSI02':
-      if (!idInput.id.checked) {
+      if (!input.id.checked) {
         getElement('idCHKSI02').checked = true;
         getElement('idCHKSI02').setAttribute("class", "form-check-input is-valid");
       }
       getElement('idCHKSI01').setAttribute("class", "form-check-input");
       return getElement('idCHKSI01').checked = false;
     case 'idCHKRH01':
-      if (!idInput.id.checked) {
+      if (!input.id.checked) {
         getElement('idCHKRH01').checked = true;
         getElement('idCHKRH01').setAttribute("class", "form-check-input is-valid");
       }
@@ -115,7 +133,7 @@ function checkboxEqualRadioButton(idInput) {
       getElement('idCHKRH03').setAttribute("class", "form-check-input");
       return (getElement('idCHKRH02').checked = false) || (getElement('idCHKRH03').checked = false);
     case 'idCHKRH02':
-      if (!idInput.id.checked) {
+      if (!input.id.checked) {
         getElement('idCHKRH02').checked = true;
         getElement('idCHKRH02').setAttribute("class", "form-check-input is-valid");
       }
@@ -123,7 +141,7 @@ function checkboxEqualRadioButton(idInput) {
       getElement('idCHKRH03').setAttribute("class", "form-check-input");
       return (getElement('idCHKRH01').checked = false) || (getElement('idCHKRH03').checked = false);
     case 'idCHKRH03':
-      if (!idInput.id.checked) {
+      if (!input.id.checked) {
         getElement('idCHKRH03').checked = true;
         getElement('idCHKRH03').setAttribute("class", "form-check-input is-valid");
       }
@@ -131,29 +149,29 @@ function checkboxEqualRadioButton(idInput) {
       getElement('idCHKRH02').setAttribute("class", "form-check-input");
       return (getElement('idCHKRH01').checked = false) || (getElement('idCHKRH02').checked = false);
   }
-} 
+}
 /**
  * VALIDAÇÃO DOS CAMPOS DE TEXTO INFORMAÇÕES GERAIS
  */
 function validationInputText() {
-  var inputText = getDynamicElement('input').filter(input => input.type === 'text');  
-  inputText.forEach((element) => { 
-    getElement(element.id).addEventListener('input', function() {
-      if (isEmpty(this.value) && !element.id === "dateCur") {
+  var inputText = getDynamicElement('input').filter(input => input.type === 'text');
+  inputText.forEach((element) => {
+    getElement(element.id).addEventListener('input', function () {
+      if (isEmpty(this.value)) {
         getElement(element.id).setAttribute("class", "form-control is-invalid");
       } else {
-        getTextValue(getElement(element.id).value);
+        getElement(element.id).setAttribute("class", "form-control");
       }
     });
-  }); 
+  });
 }
 
 function eventTextArea() {
- getDynamicElement('textarea').forEach((element) => {
-   getElement(element.id).addEventListener('input', function () {
+  getDynamicElement('textarea').forEach((element) => {
+    getElement(element.id).addEventListener('input', function () {
       getTextValue(this.value);
-   });
-  });  
+    });
+  });
 }
 
 function isEmpty(str) {
@@ -161,6 +179,24 @@ function isEmpty(str) {
 }
 
 function getTextValue(text) {
-  console.log(text);
   return text;
+}
+
+function getElementsTxt() {
+  var isValid;
+  getDynamicElement('input').map(input => {
+    switch (input.type) {
+      case 'text':
+        if (isEmpty(input.value)) return isValid = false;
+        return isValid = true;
+      case 'checkbox':
+        // console.log('chk:', input.id, ' - ', input.checked);
+        if (input.id === 'idCHKAV01') {
+          if (!input.checked) return isValid = false;
+          return isValid = true;
+        }
+        break;
+    }
+  });
+  return isValid;
 }

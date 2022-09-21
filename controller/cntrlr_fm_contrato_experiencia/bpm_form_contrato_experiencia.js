@@ -1,127 +1,177 @@
-
 //Inicialização da API do workflow
-// this.workflowCockpit = workflowCockpit({
-//   init: _init,
-//   onSubmit: _saveData,
-//   onError: _rollback,
-// });
+this.workflowCockpit = workflowCockpit({
+  init: _onLoadData,
+  onSubmit: _saveData,
+  onError: _rollback,
+});
 
-// Função init é chamada ao abrir o formulário
-function _init(data, info) {
-  
-  // Caso seja executado algum serviço externo ao abrir o formulário e o retorno dele seja atribuído a variáveis de execução
-  // essas variáveis serão preenchidas
-  const { initialVariables } = data.loadContext;
-  console.log(initialVariables);
-  
-  info
-    .getUserData()
+function _onLoadData(data, info) {
+  // console.dir('d:', data.loadContext);
+  info.getUserData()
     .then(function (user) {
-      // Usuário logado
-      getElement("nomFun").setAttribute("value", user.fullname);
-      getElement("emaFun").setAttribute("value", user.email);
-    })
-    .then(function () {
+      // console.log(user.fullname);
+      getElement('nomAva').value = user.fullname;
+      getElement('nomAva').disable = true;
+    }).then(function () {
       info.getPlatformData().then(function (platformData) {
-        // Informações da G7
-        console.log(platformData);
+        // console.log('plat:', platformData);
       });
     });
 
-  // Retorna os dados que já foram previamente preenchidos no formulário
   info.getInfoFromProcessVariables().then(function (data) {
-    // Somente recupera os dados caso não seja a criação de uma tarefa (somente se estiver tratando a tarefa)
     if (!info.isRequestNew() && Array.isArray(data)) {
       var map = new Map();
-      var i;
-      for (i = 0; i < data.length; i++) {
+
+      for (let i = 0; i < data.length; i++) {
         map.set(data[i].key, data[i].value);
       }
+      console.log('map:', map);
+      const nomFil = map.get('nomFil');
+      const nomAva = map.get('nomAva');
 
-      console.log("Carregando Dados", map);
-      const nomFil = map.get("nomFil");
-      const nomAva = map.get("nomAva");
-      const nomFun = map.get("nomFun");
-      const tipCar = map.get("tipCar");
-      const tipSet = map.get("tipSet");
-      const dateCur = map.get("dateCur");
-      const idCHKAV01 = map.get("idCHKAV01");
+      getElement('nomFil').value = nomFil;
+      getElement('nomAva').value = nomAva;
 
-      getElement("nomFil").setAttribute("value", nomFil);
-      getElement("nomAva").setAttribute("value", nomAva);
-      getElement("nomFun").value = nomFun;
-      getElement("tipCar").setAttribute("value", tipCar);
-      getElement("tipSet").setAttribute("value", tipSet);
-      getElement("dateCur").setAttribute("value", dateCur);
-      getElement("idCHKAV01").setAttribute("idCHKAV01", dateCur);
+      getDynamicElement('input').forEach(input => {
+        if (input.id != 'nomAva') {
+          let inputValue = map.get(input.id);
+          getElement(input.id).value = inputValue;
+        }
+      });
+
+      getDynamicElement('textarea').forEach(input => {
+        let inputValue = map.get(input.id);
+        getElement(input.id).value = inputValue;
+      });
+      // console.log(input);
     }
   });
-}
+};
 
-// Essa função é chamada quando o usuário clicar no botão 'Enviar'
-function _saveData(data, info) {
-  if (!isFormValid()) {
-    getElement("gridCheck").setAttribute("class", "form-check-input is-invalid");
-    throw new Error("Os dados informados não são válidos.");
-  }
+function _saveData(data) {
+  isValidar();
+
   let newData = {};
-  let selectEstado = getElement("nomFil");
+  let nomFil = getElement('nomFil');
+  let dateCur = getElement('dateCur');
+  console.log('dt:', dateCur.value);
+  newData.dateCur = dateCur.value;
+  newData.nomFil = nomFil.options[nomFil.selectedIndex].value;
+  var inputText = getDynamicElement('input').filter(input => input.type === 'text');
+  var inputCheckbox = getDynamicElement('input').filter(input => input.type === 'checkbox');
+  var inputTextarea = getDynamicElement('textarea');
+  //Coleta as informações digitas nos inputs text
+  inputText.forEach(input => {
+    newData.input.id = getElement(input.id).value;
+  });
+  //Coleta as informações digitas nos inputs checkbox
+  inputCheckbox.forEach(input => {
+    newData.input.id = getElement(input.id).checked;
+  });
+  //Coleta as informações digitas nos textareas
+  inputTextarea.forEach(input => {
+    newData.input.id = getElement(input.id).value;
+  });
 
-  newData.nomAva = getElement("nomAva").value;
-  newData.nomFun = getElement("nomFun").value;
-  newData.nomFil = selectEstado.options[selectEstado.selectedIndex].value;
-  newData.tipCar = getElement("tipCar").value;
-  newData.tipSet = getElement("tipSet").value;
-  newData.dateCur = getElement("dateCur").value;
-  console.log(newData);
+  console.log('new:', newData);
   return {
     formData: newData,
-  };
-}
-
-function _rollback(data, info) {
-  /*data: ({
-       error: obj
-       processInstanceId: int
-    })*/
-}
-
-function isFormValid() {
-  const isChecked = document.getElementById("gridCheck").checked;  
-  return isChecked;
-}
-
-// Handler de eventos do checkbox
-function onSelect() {
-  const isChecked = document.getElementById("gridCheck").checked;  
-  if (isChecked) {
-    document.getElementById("gridCheck").setAttribute("class", "form-check-input is-valid");
-  } else {
-    document.getElementById("gridCheck").setAttribute("class", "form-check-input is-invalid");
   }
+};
+
+function _rollback() {
+
+};
+
+function isFormValidCheck() {
+  var isValid = false;
+  getDynamicElement('input').map(input => {
+
+    if (input.type === 'checkbox') {
+      // console.log('ck:', input.id);
+      if (input.id != 'idCHKSI01' &&
+        input.id != 'idCHKSI02' &&
+        input.id != 'idCHKRH01' &&
+        input.id != 'idCHKRH02' &&
+        input.id != 'idCHKRH03') {
+        console.log('id:', input.id, ' - ', input.checked);
+        isValid = { 'id': input.id, 'checked': input.checked };
+      }
+    }
+
+
+
+
+    // if (input.id === 'idCHKAV01') {
+
+    // }
+    // else {
+    //   isValid = input.checked;
+    // }
+  });
+  // console.log(isValid);
+  return isValid;
+};
+
+function isValidar() {
+  var checkSelected = false;
+  getDynamicElement('input').forEach(input => {
+
+    if (input.type === 'checkbox' && input.checked) {
+
+      if (input.id != 'idCHKRH01' && input.id != 'idCHKSI01') {
+        console.log('inp1:', input.id, ' - ', input.checked);
+        if (input.id === 'idCHKAV01') {
+          console.log('inp2:', input.id, ' - ', input.checked);
+          if (input.checked) {
+            alert('Clicou');
+          } 
+          // checkSelected = false;
+        } else if(input.id != 'idCHKAV01') {
+          alert('Outro Clicou');
+          // checkSelected = true;
+        } else {
+          alert('Outro N Clicou');
+        }
+      }
+
+
+
+
+
+    }
+  });
+  // if (!checkSelected) {
+  //   alert('Não Clicou');
+  //   getDynamicElement('input').forEach(input => {
+  //     if (input.type === 'checkbox' && input.id != 'idCHKSI01' &&
+  //       input.id != 'idCHKSI02' &&
+  //       input.id != 'idCHKRH01' &&
+  //       input.id != 'idCHKRH02' &&
+  //       input.id != 'idCHKRH03') {
+  //       getElement(input.id).setAttribute("class", "form-check-input is-invalid");
+  //       throw new Error("Os dados informados não são válidos.");
+  //     }
+  //     // else if (input.type === 'checkbox' && input.id.includes('idCHKACT')) {
+  //     //   getElement(input.id).setAttribute("class", "form-check-input is-invalid");
+  //     //   throw new Error("Os dados informados não são válidos.");
+  //     // }
+  //   });
+  //   return false;
+  // } else {
+  //   return true;
+  // }
 }
 
-// Disabling form submissions if there are invalid fields
-(function () {
-  "use strict";
-
-  // Fetch all the forms we want to apply custom Bootstrap validation styles to
-  var forms = document.querySelectorAll(".needs-validation");
-
-  // Loop over them and prevent submission
-  Array.prototype.slice.call(forms).forEach(function (form) {
-    form.addEventListener(
-      "submit",
-      function (event) {
-        if (!form.checkValidity()) {
-          event.preventDefault();
-          event.stopPropagation();
-        }
-
-        form.classList.add("was-validated");
-      },
-      false
-    );
+function isFormValidSelect() {
+  var isSelected;
+  getDynamicElement('select').map(input => {
+    if (input.id === 'nomFil') {
+      if (isEmpty(input.options[input.selectedIndex].value)) return isSelected = false;
+      return isSelected = true;
+    }
   });
-})();
+  return isSelected;
+}
+
 
