@@ -6,7 +6,6 @@ this.workflowCockpit = workflowCockpit({
 });
 
 function _onLoadData(data, info) {
-  setDefaultCheckbox('checked');
   info.getUserData()
     .then(function (user) {
       // console.log(user.fullname);
@@ -21,26 +20,18 @@ function _onLoadData(data, info) {
   info.getInfoFromProcessVariables().then(function (data) {
     if (!info.isRequestNew() && Array.isArray(data)) {
       data.map((item) => {
-        if (item.type === 'Boolean' && item.value === 'true') {
-
-          if (item.key != 'idCHKSI01' && item.key != 'idCHKRH01') {
-            setDefaultCheckbox('noChecked');
-            getElement(item.key).setAttribute("class", "form-check-input is-valid");
-            getElement(item.key).checked = item.value;
-          } else {
-            getElement(item.key).setAttribute("class", "form-check-input is-valid");
-            getElement(item.key).checked = item.value;
-          }
-
-        } else {
+        
           getElement(item.key).value = (typeof item.value === 'undefined' ? '' : item.value);
-        }
+        
       });
     }
   });
 };
 
 function _saveData(data) {
+  /**
+   * Validação campos de inputs
+   */
   if (!isFormValidSelect()) {
     getElement('nomFil').setAttribute("class", "form-control is-invalid");
     throw new Error("Precisa selecionar algum item do campo UNIDADE/LOJA.");
@@ -54,6 +45,8 @@ function _saveData(data) {
       }
     });
 
+  } else if (!isFormValidCheck()) {
+    
   }
 
   /**
@@ -68,8 +61,9 @@ function _saveData(data) {
   newData.dateCur = dateCur.value;
 
   newData.nomFil = nomFil.options[nomFil.selectedIndex].value;
+
   var inputText = getDynamicElement('input').filter(input => input.type === 'text');
-  var inputCheckbox = getDynamicElement('input').filter(input => input.type === 'checkbox');
+  var inputCheckbox = getDynamicElement('input').filter(input => input.type === 'radio');
   var inputTextarea = getDynamicElement('textarea');
   //Coleta as informações digitas nos inputs text
   inputText.forEach(input => {
@@ -100,7 +94,10 @@ function _rollback() {
 function isFormValidCheck() {
   var isChecked;
   getDynamicElement('input').map(input => {
-
+    if (input.type === 'checkbox') {
+      if (!input.checked) return isChecked = false;
+      return isChecked = true;
+    }
   });
   return isChecked;
 }

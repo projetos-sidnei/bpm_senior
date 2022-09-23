@@ -25,13 +25,13 @@
 
 <!-- SCRIPTS LOCAIS -->
 <script src="/view/components/datepicker/locales/bootstrap-datepicker.pt-BR.min.js" type="text/javascript"></script>
-<script src="/view/components/cmpnts_fm_contrato_experiencia/container_checkbox_and_textarea.js" type="text/javascript"></script>
+<script src="/view/components/cpnts_fm_contrato_experiencia/container_checkbox_and_textarea.js" type="text/javascript"></script>
 <script src="/model/data/data_form_contrato_experiencia.js" type="text/javascript"></script>
 <script src="/controller/const/get_dynamic_elements.js" type="text/javascript"></script>
 <script src="/controller/const/get_element.js" type="text/javascript"></script>
 <script src="/controller/main_controller.js" type="text/javascript"></script>
 <script src="/controller/datepicker_controller.js" type="text/javascript"></script>
-<script src="/controller/cntrlr_fm_contrato_experiencia/teste_form.js" type="text/javascript"></script>
+<script src="/controller/ctrl_fm_contrato_experiencia/teste_form.js" type="text/javascript"></script>
 <script src="/model/services/get_filial.js" type="text/javascript"></script>
 
 <!-- SCRIPTS PARA CARREGAR FUNÇÕES DA SENIOR -->
@@ -182,14 +182,14 @@
         <p class="text-start fs-5">ESPAÇO DO RH:</p>
         <p class="text-start fs-6">DE MANEIRA GERAL, COMO O FUNCIONÁRIO PODE SER CLASSIFICADO?</p>
         <div class="form-check mt-1">
-          <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHKRH01">
-          <label class="ml-6 form-check-label"  for="idCHKRH01">
+          <input class="ml-5 form-check-input" name="nameRDOSDH" type="radio" value="" id="idRDORH01" checked>
+          <label class="ml-6 form-check-label"  for="idRDORH01">
             Trata-se de excelente aquisição para a empresa.
           </label>
         </div>
         <div class="form-check mt-1">
-          <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHKRH02">
-          <label class="ml-6 form-check-label"  for="idCHKRH02">
+          <input class="ml-5 form-check-input" name="nameRDOSDH" type="radio" value="" id="idRDORH02">
+          <label class="ml-6 form-check-label"  for="idRDORH02">
             Boa contratação.
           </label>
           <div class="invalid-feedback">
@@ -197,8 +197,8 @@
           </div>
         </div>
         <div class="form-check mt-1">
-          <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHKRH03">
-          <label class="ml-6 form-check-label"  for="idCHKRH03">
+          <input class="ml-5 form-check-input" name="nameRDOSDH" type="radio" value="" id="idRDORH03">
+          <label class="ml-6 form-check-label"  for="idRDORH03">
             Não atende as necessidades da empresa.
           </label>
           <div class="invalid-feedback">
@@ -211,8 +211,8 @@
       <div class="col-md-11">
         <p class="text-start fs-5">SÍNTESE:</p>
         <div class="form-check mt-1">
-          <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHKSI01">
-          <label class="ml-6 form-check-label"  for="idCHKSI01">
+          <input class="ml-5 form-check-input" name="flexRadioDefault" type="radio" value="" id="idRDOSI01" checked>
+          <label class="ml-6 form-check-label"  for="idRDOSI01">
             Efetivar.
           </label>
           <div class="invalid-feedback">
@@ -220,8 +220,8 @@
           </div>
         </div>
         <div class="form-check mt-1">
-          <input class="ml-5 form-check-input" type="checkbox" value="" id="idCHKSI02">
-          <label class="ml-6 form-check-label"  for="idCHKSI02">
+          <input class="ml-5 form-check-input" name="flexRadioDefault" type="radio" value="" id="idRDOSI02">
+          <label class="ml-6 form-check-label"  for="idRDOSI02">
             Demitir.
           </label>
           <div class="invalid-feedback">
