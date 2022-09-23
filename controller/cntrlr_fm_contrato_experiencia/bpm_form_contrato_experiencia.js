@@ -6,7 +6,7 @@ this.workflowCockpit = workflowCockpit({
 });
 
 function _onLoadData(data, info) {
-  // console.dir('d:', data.loadContext);
+  setDefaultCheckbox('checked');
   info.getUserData()
     .then(function (user) {
       // console.log(user.fullname);
@@ -20,57 +20,68 @@ function _onLoadData(data, info) {
 
   info.getInfoFromProcessVariables().then(function (data) {
     if (!info.isRequestNew() && Array.isArray(data)) {
-      var map = new Map();
+      data.map((item) => {
+        if (item.type === 'Boolean' && item.value === 'true') {
 
-      for (let i = 0; i < data.length; i++) {
-        map.set(data[i].key, data[i].value);
-      }
-      console.log('map:', map);
-      const nomFil = map.get('nomFil');
-      const nomAva = map.get('nomAva');
+          if (item.key != 'idCHKSI01' && item.key != 'idCHKRH01') {
+            setDefaultCheckbox('noChecked');
+            getElement(item.key).setAttribute("class", "form-check-input is-valid");
+            getElement(item.key).checked = item.value;
+          } else {
+            getElement(item.key).setAttribute("class", "form-check-input is-valid");
+            getElement(item.key).checked = item.value;
+          }
 
-      getElement('nomFil').value = nomFil;
-      getElement('nomAva').value = nomAva;
-
-      getDynamicElement('input').forEach(input => {
-        if (input.id != 'nomAva') {
-          let inputValue = map.get(input.id);
-          getElement(input.id).value = inputValue;
+        } else {
+          getElement(item.key).value = (typeof item.value === 'undefined' ? '' : item.value);
         }
       });
-
-      getDynamicElement('textarea').forEach(input => {
-        let inputValue = map.get(input.id);
-        getElement(input.id).value = inputValue;
-      });
-      // console.log(input);
     }
   });
 };
 
 function _saveData(data) {
-  isValidar();
+  if (!isFormValidSelect()) {
+    getElement('nomFil').setAttribute("class", "form-control is-invalid");
+    throw new Error("Precisa selecionar algum item do campo UNIDADE/LOJA.");
+  } else if (!isFormValidText()) {
+    getDynamicElement('input').map(input => {
+      if (input.type === 'text' && input.id != 'nomAva') {
+        if (isEmpty(input.value)) {
+          getElement(input.id).setAttribute("class", "form-control is-invalid");
+          throw new Error("Esse campo precisa ser preenchido");
+        }
+      }
+    });
 
+  }
+
+  /**
+   * Adiciona as informações em um objeto váriavel newData para
+   * permitir a consistência no banco SeniorX
+   */
   let newData = {};
   let nomFil = getElement('nomFil');
   let dateCur = getElement('dateCur');
+
   console.log('dt:', dateCur.value);
   newData.dateCur = dateCur.value;
+
   newData.nomFil = nomFil.options[nomFil.selectedIndex].value;
   var inputText = getDynamicElement('input').filter(input => input.type === 'text');
   var inputCheckbox = getDynamicElement('input').filter(input => input.type === 'checkbox');
   var inputTextarea = getDynamicElement('textarea');
   //Coleta as informações digitas nos inputs text
   inputText.forEach(input => {
-    newData.input.id = getElement(input.id).value;
+    newData[input.id] = input.value;
   });
   //Coleta as informações digitas nos inputs checkbox
   inputCheckbox.forEach(input => {
-    newData.input.id = getElement(input.id).checked;
+    newData[input.id] = input.checked;
   });
   //Coleta as informações digitas nos textareas
   inputTextarea.forEach(input => {
-    newData.input.id = getElement(input.id).value;
+    newData[input.id] = input.value;
   });
 
   console.log('new:', newData);
@@ -82,87 +93,35 @@ function _saveData(data) {
 function _rollback() {
 
 };
-
+/**
+ * Função para validar se os Checkbosx foram selecionados
+ * @returns isChecked: true or false
+ */
 function isFormValidCheck() {
-  var isValid = false;
+  var isChecked;
   getDynamicElement('input').map(input => {
 
-    if (input.type === 'checkbox') {
-      // console.log('ck:', input.id);
-      if (input.id != 'idCHKSI01' &&
-        input.id != 'idCHKSI02' &&
-        input.id != 'idCHKRH01' &&
-        input.id != 'idCHKRH02' &&
-        input.id != 'idCHKRH03') {
-        console.log('id:', input.id, ' - ', input.checked);
-        isValid = { 'id': input.id, 'checked': input.checked };
-      }
-    }
-
-
-
-
-    // if (input.id === 'idCHKAV01') {
-
-    // }
-    // else {
-    //   isValid = input.checked;
-    // }
   });
-  // console.log(isValid);
-  return isValid;
-};
-
-function isValidar() {
-  var checkSelected = false;
-  getDynamicElement('input').forEach(input => {
-
-    if (input.type === 'checkbox' && input.checked) {
-
-      if (input.id != 'idCHKRH01' && input.id != 'idCHKSI01') {
-        console.log('inp1:', input.id, ' - ', input.checked);
-        if (input.id === 'idCHKAV01') {
-          console.log('inp2:', input.id, ' - ', input.checked);
-          if (input.checked) {
-            alert('Clicou');
-          } 
-          // checkSelected = false;
-        } else if(input.id != 'idCHKAV01') {
-          alert('Outro Clicou');
-          // checkSelected = true;
-        } else {
-          alert('Outro N Clicou');
-        }
-      }
-
-
-
-
-
-    }
-  });
-  // if (!checkSelected) {
-  //   alert('Não Clicou');
-  //   getDynamicElement('input').forEach(input => {
-  //     if (input.type === 'checkbox' && input.id != 'idCHKSI01' &&
-  //       input.id != 'idCHKSI02' &&
-  //       input.id != 'idCHKRH01' &&
-  //       input.id != 'idCHKRH02' &&
-  //       input.id != 'idCHKRH03') {
-  //       getElement(input.id).setAttribute("class", "form-check-input is-invalid");
-  //       throw new Error("Os dados informados não são válidos.");
-  //     }
-  //     // else if (input.type === 'checkbox' && input.id.includes('idCHKACT')) {
-  //     //   getElement(input.id).setAttribute("class", "form-check-input is-invalid");
-  //     //   throw new Error("Os dados informados não são válidos.");
-  //     // }
-  //   });
-  //   return false;
-  // } else {
-  //   return true;
-  // }
+  return isChecked;
 }
-
+/**
+ * Função para validar se os TextFields foram preenchidos
+ * @returns isTextValid: true or false
+ */
+function isFormValidText() {
+  var isTextValid;
+  getDynamicElement('input').map(input => {
+    if (input.type === 'text' && input.id != 'nomAva') {
+      if (isEmpty(input.value)) return isTextValid = false;
+      return isTextValid = true;
+    }
+  });
+  return isTextValid;
+}
+/**
+ * Função para validar se alugm item do campo Select foi preenchido
+ * @returns isSelected: true or false
+ */
 function isFormValidSelect() {
   var isSelected;
   getDynamicElement('select').map(input => {

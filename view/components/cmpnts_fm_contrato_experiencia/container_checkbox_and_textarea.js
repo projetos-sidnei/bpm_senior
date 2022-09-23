@@ -12,10 +12,6 @@ function onLoadCheckboxAndTextArea() {
   /** SETA OS CHECKBOXS NA SEÇÃO ESPAÇÕ RH PARA MARCADO, ISSO OBRIGA O USUÁRIO
    * A ESCOLHER UMA OPÇÃO OU A PRIMEIRA FICA ATIVADA SEMPRE
    */
-  getElement('idCHKSI01').checked = true;
-  getElement('idCHKSI01').setAttribute("class", "form-check-input is-valid");
-  getElement('idCHKRH01').checked = true;
-  getElement('idCHKRH01').setAttribute("class", "form-check-input is-valid");
 
   /** CONVERTE A DATA LOCAL EM DATA NO FORMATO YYYY-MM-DD */
   let dtNow = new Date().toISOString().slice(0, 10);
@@ -74,6 +70,7 @@ function onLoadCheckboxAndTextArea() {
   validationInputText();
   isCheckBoxChecked();
   eventTextArea();
+  validationSelectItem();
 
 }
 
@@ -87,13 +84,15 @@ function isCheckBoxChecked() {
       input.onchange = function () {
         isChecked = input.checked;
         if (isChecked) {
-          getElementsTxt();
+          console.log(getElementsTxt());
+          validationSelectItem();
           input.setAttribute("class", "form-check-input is-valid");
         } else if (input.id === 'idCHKAV1') {
-          getElementsTxt();
+          console.log(getElementsTxt());
+          validationSelectItem();
           input.setAttribute("class", "form-check-input is-invalid");
         } else {
-          getElementsTxt();
+          console.log(getElementsTxt());
           input.setAttribute("class", "form-check-input");
         }
         checkboxEqualRadioButton(input);
@@ -114,7 +113,6 @@ function checkboxEqualRadioButton(input) {
         getElement('idCHKSI01').checked = true;
         getElement('idCHKSI01').setAttribute("class", "form-check-input is-valid");
       }
-      validationInputText();
       getElement('idCHKSI02').setAttribute("class", "form-check-input");
       return getElement('idCHKSI02').checked = false;
     case 'idCHKSI02':
@@ -141,7 +139,7 @@ function checkboxEqualRadioButton(input) {
       getElement('idCHKRH03').setAttribute("class", "form-check-input");
       return (getElement('idCHKRH01').checked = false) || (getElement('idCHKRH03').checked = false);
     case 'idCHKRH03':
-      if (!input.id.checked) {
+      if (!input.id.checked || input.value === 'false') {
         getElement('idCHKRH03').checked = true;
         getElement('idCHKRH03').setAttribute("class", "form-check-input is-valid");
       }
@@ -166,6 +164,16 @@ function validationInputText() {
   });
 }
 
+function validationSelectItem() {
+  getDynamicElement('select').forEach((select) => {
+    getElement(select.id).addEventListener('change', function () {
+      if (!isEmpty(this.value)) {
+        getElement(select.id).setAttribute("class", "form-control");
+      }
+    });
+  });
+}
+
 function eventTextArea() {
   getDynamicElement('textarea').forEach((element) => {
     getElement(element.id).addEventListener('input', function () {
@@ -175,6 +183,7 @@ function eventTextArea() {
 }
 
 function isEmpty(str) {
+  // console.log('str:', str);
   return !str.trim().length;
 }
 
@@ -182,21 +191,33 @@ function getTextValue(text) {
   return text;
 }
 
+/**
+ * Função para atribuir para o checkboxs Espaço RH qual foi selecionado.
+ * @param {'checked', 'noChecked'} isCheck 
+ */
+function setDefaultCheckbox(isCheck) {
+  if (isCheck === 'checked') {
+    getElement('idCHKSI01').checked = true;
+    getElement('idCHKSI01').setAttribute("class", "form-check-input is-valid");
+    getElement('idCHKRH01').checked = true;
+    getElement('idCHKRH01').setAttribute("class", "form-check-input is-valid");
+  } else {
+    getElement('idCHKSI01').checked = false;
+    getElement('idCHKSI01').setAttribute("class", "form-check-input");
+    getElement('idCHKRH01').checked = false;
+    getElement('idCHKRH01').setAttribute("class", "form-check-input");
+  }
+
+}
+
 function getElementsTxt() {
-  var isValid;
-  getDynamicElement('input').map(input => {
-    switch (input.type) {
-      case 'text':
-        if (isEmpty(input.value)) return isValid = false;
-        return isValid = true;
-      case 'checkbox':
-        // console.log('chk:', input.id, ' - ', input.checked);
-        if (input.id === 'idCHKAV01') {
-          if (!input.checked) return isValid = false;
-          return isValid = true;
-        }
-        break;
+  var isTextValid;
+  getDynamicElement('input').map(input => { 
+    if (input.type === 'text' && input.id != 'nomAva') {
+      console.log('id:',input.id, ' - ', input.value);
+      if (isEmpty(input.value)) return isTextValid = false;
+      return isTextValid = true;
     }
   });
-  return isValid;
+  return isTextValid;
 }
