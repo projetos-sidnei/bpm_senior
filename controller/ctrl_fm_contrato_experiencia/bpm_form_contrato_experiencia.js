@@ -20,8 +20,11 @@ function _onLoadData(data, info) {
   info.getInfoFromProcessVariables().then(function (data) {
     if (!info.isRequestNew() && Array.isArray(data)) {
       data.map((item) => {
-        
-          getElement(item.key).value = (typeof item.value === 'undefined' ? '' : item.value);
+        console.log(item);
+        if (item.type === 'Boolean' && item.value === 'true') {
+          getElement(item.key).checked = item.value;
+        } 
+        getElement(item.key).value = (typeof item.value === 'undefined' ? '' : item.value);
         
       });
     }
@@ -44,10 +47,10 @@ function _saveData(data) {
         }
       }
     });
-
-  } else if (!isFormValidCheck()) {
-    
-  }
+  } else if (!isFormCheckbox()) {
+    getElement('idCHKAV01').setAttribute("class", "form-check-input is-invalid");
+    throw new Error("Esse campo precisa ser preenchido");
+  };
 
   /**
    * Adiciona as informações em um objeto váriavel newData para
@@ -56,21 +59,23 @@ function _saveData(data) {
   let newData = {};
   let nomFil = getElement('nomFil');
   let dateCur = getElement('dateCur');
+  let idCHKAV01 = getElement('idCHKAV01');
 
   console.log('dt:', dateCur.value);
   newData.dateCur = dateCur.value;
 
   newData.nomFil = nomFil.options[nomFil.selectedIndex].value;
+  newData.idCHKAV01 = idCHKAV01.checked;
 
   var inputText = getDynamicElement('input').filter(input => input.type === 'text');
-  var inputCheckbox = getDynamicElement('input').filter(input => input.type === 'radio');
+  var inputRadio = getDynamicElement('input').filter(input => input.type === 'radio');
   var inputTextarea = getDynamicElement('textarea');
   //Coleta as informações digitas nos inputs text
   inputText.forEach(input => {
     newData[input.id] = input.value;
   });
   //Coleta as informações digitas nos inputs checkbox
-  inputCheckbox.forEach(input => {
+  inputRadio.forEach(input => {
     newData[input.id] = input.checked;
   });
   //Coleta as informações digitas nos textareas
@@ -87,20 +92,16 @@ function _saveData(data) {
 function _rollback() {
 
 };
+
 /**
- * Função para validar se os Checkbosx foram selecionados
- * @returns isChecked: true or false
+ * Função para validar se os TextFields foram preenchidos
+ * @returns isTextValid: true or false
  */
-function isFormValidCheck() {
-  var isChecked;
-  getDynamicElement('input').map(input => {
-    if (input.type === 'checkbox') {
-      if (!input.checked) return isChecked = false;
-      return isChecked = true;
-    }
-  });
-  return isChecked;
+
+function isFormCheckbox() {
+  return getElement('idCHKAV01').checked;
 }
+
 /**
  * Função para validar se os TextFields foram preenchidos
  * @returns isTextValid: true or false

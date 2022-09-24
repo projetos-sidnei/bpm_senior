@@ -1,21 +1,13 @@
-function createSelectOptions() {
-
-}
-
 function onLoadCheckboxAndTextArea() {
   var section = getElement('id-check-textarea');
   var htmlComponent;
   var htmlRadio;
   var htmlTextArea;
 
-  // loadOptions();
-  /** SETA OS CHECKBOXS NA SEÇÃO ESPAÇÕ RH PARA MARCADO, ISSO OBRIGA O USUÁRIO
-   * A ESCOLHER UMA OPÇÃO OU A PRIMEIRA FICA ATIVADA SEMPRE
-   */
 
   /** CONVERTE A DATA LOCAL EM DATA NO FORMATO YYYY-MM-DD */
   let dtNow = new Date().toISOString().slice(0, 10);
-  //BLOQUEIA DATAS ANTERIOS A DATA ATUAL NO CALENDARIO VISIVEL
+  //BLOQUEIA DATAS ANTERIOR A DATA ATUAL NO CALENDÁRIO.
   getElement('dateCur').setAttribute('min', dtNow);
   //SETA A DATA ATUAL PARA O USUÁRIO
   getElement('dateCur').value = dtNow;
@@ -68,58 +60,70 @@ function onLoadCheckboxAndTextArea() {
     section.innerHTML += htmlTextArea;
   });
   validationInputText();
+  validationInputCheckbox();
   isCheckedFirstRadio();
   eventTextArea();
   validationSelectItem();
 
 }
+
 /**
- * Função para inicializar o primeiro Radio como true
+ * FUNÇÃO PARA INICIAR OS PRIMEIROS RADIOS BUTTONS NO FORMULÁRIO
  */
 function isCheckedFirstRadio() {
-
-  getDynamicElement('input').map((input, index) => {
-    if (input.type === 'radio' && input.id != 'idRDOSI01' &&
-      input.id != 'idRDOSI02' &&
-      input.id != 'idRDORH01' &&
-      input.id != 'idRDORH02' &&
-      input.id != 'idRDORH03'
+  let indexController = 0;
+  var radio = getDynamicElement('input').filter(input => input.type === 'radio');
+  for (let i = 0; i < radio.length; i++){
+    
+   /**
+    * Elimina os radios buttons que já estão setados na seção RH e Síntese com true, e limita o contador a percorrer todo o array
+    * até a última posição do array sem necessidade, assim todos os primeiros radios buttons serão inicializados com true.
+    *  */  
+    if (radio[i].id != 'idRDOSI01' &&
+      radio[i].id != 'idRDORH01' &&
+      indexController <= 36
     ) {
-
-      console.log(index, input.id);
-      index == 6 ? input.checked = true :
-        (index == 10 ? input.checked = true :
-          (index == 14 ? input.checked = true:
-            (index == 18 ? input.checked = true :
-              (index == 22 ? input.checked = true :
-                (index == 26 ? input.checked = true :
-                  (index == 30 ? input.checked = true :
-                    (index == 34 ? input.checked = true :
-                      (index == 38 ? input.checked = true :
-                        null))))))));
-
+      radio[indexController].checked = true;   
     }
-
-  });
+    /**
+     * Este contador serve para controlar a posição do item dentro do array, neste sentido os primeiros radios buttons são encontrados 
+     * dentro do array, que não caso são, o 0,4,8,12,16,10,24,28,32 e 36, portanto andam de 4 em 4 indices, dentro da estrutura 
+     * estabelecida isso pode mudar caso o layout mudar.
+     */
+    indexController = indexController + 4;
+  }
+    
 }
 
+/**
+ * Validação do campo de checkbox Avalição
+ */
+function validationInputCheckbox() {
+  getElement('idCHKAV01').addEventListener('click', function () { 
+    if (this.checked) return getElement('idCHKAV01').setAttribute("class", "form-check-input");
+    return getElement('idCHKAV01').setAttribute("class", "form-check-input is-invalid");
+  });
+}
 
 /**
  * VALIDAÇÃO DOS CAMPOS DE TEXTO INFORMAÇÕES GERAIS
  */
 function validationInputText() {
   var inputText = getDynamicElement('input').filter(input => input.type === 'text');
-  inputText.forEach((element) => {
-    getElement(element.id).addEventListener('input', function () {
+  inputText.forEach((input) => {
+    getElement(input.id).addEventListener('input', function () {
       if (isEmpty(this.value)) {
-        getElement(element.id).setAttribute("class", "form-control is-invalid");
+        getElement(input.id).setAttribute("class", "form-control is-invalid");
       } else {
-        getElement(element.id).setAttribute("class", "form-control");
+        getElement(input.id).setAttribute("class", "form-control");
       }
     });
   });
 }
 
+/**
+ * VALIDAÇÃO DO CAMPO SELECT ITEM PARA FILIAIS
+ */
 function validationSelectItem() {
   getDynamicElement('select').forEach((select) => {
     getElement(select.id).addEventListener('change', function () {
@@ -130,6 +134,9 @@ function validationSelectItem() {
   });
 }
 
+/**
+ * FUNÇÃO PARA EVENTO PARA TESTE DOS TEXTAREAS
+ */
 function eventTextArea() {
   getDynamicElement('textarea').forEach((element) => {
     getElement(element.id).addEventListener('input', function () {
@@ -138,19 +145,20 @@ function eventTextArea() {
   });
 }
 
+/**
+ * FUNÇÃO PARA VALIDAR SE UM CAMPO DE TEXTO ESTÁ VAZIO.
+ * @param {!str.trim().length} str 
+ * @returns 
+ */
 function isEmpty(str) {
-  // console.log('str:', str);
   return !str.trim().length;
 }
 
+/**
+ * FUNÇÃO COMPLEMENTAR DE TEXT DE RETORNO DOS CAMPOS DE TEXTOS.
+ * @param {text} text 
+ * @returns 
+ */
 function getTextValue(text) {
   return text;
-}
-
-
-
-function getElementsTxt() {
-  var isChecked;
-  
-  return isChecked;
 }
