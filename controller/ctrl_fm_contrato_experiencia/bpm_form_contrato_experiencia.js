@@ -53,7 +53,7 @@ function _saveData(data) {
   };
 
   /**
-   * Adiciona as informações em um objeto váriavel newData para
+   * Adiciona as informações em um objeto variável newData para
    * permitir a consistência no banco SeniorX
    */
   let newData = {};
@@ -117,7 +117,7 @@ function isFormValidText() {
   return isTextValid;
 }
 /**
- * Função para validar se alugm item do campo Select foi preenchido
+ * Função para validar se algum item do campo Select foi preenchido
  * @returns isSelected: true or false
  */
 function isFormValidSelect() {
