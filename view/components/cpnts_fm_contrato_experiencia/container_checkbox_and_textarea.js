@@ -14,7 +14,7 @@ function onLoadCheckboxAndTextArea() {
 
   /**
    * O LOOP VARRE O ARQUIVO DATA NA PASTA MODEL/DATA E GERA OS CHECKBOXS E TEXTAREAS
-   * DINAMINCAMENTE.
+   * DINAMICAMENTE.
    */
   dataContratoExperiencia.map((value) => {
     /** CRIA A DIV COM O TITULO E O ICONE DE DUVIDA COM UM TOOLTIP */
@@ -74,7 +74,6 @@ function isCheckedFirstRadio() {
   let indexController = 0;
   var radio = getDynamicElement('input').filter(input => input.type === 'radio');
   for (let i = 0; i < radio.length; i++){
-    
    /**
     * Elimina os radios buttons que já estão setados na seção RH e Síntese com true, e limita o contador a percorrer todo o array
     * até a última posição do array sem necessidade, assim todos os primeiros radios buttons serão inicializados com true.
@@ -96,7 +95,7 @@ function isCheckedFirstRadio() {
 }
 
 /**
- * Validação do campo de checkbox Avalição
+ * Validação do campo de checkbox Avaliação
  */
 function validationInputCheckbox() {
   getElement('idCHKAV01').addEventListener('click', function () { 
