@@ -18,20 +18,32 @@ function _onLoadData(data, info) {
     });
 
   info.getInfoFromProcessVariables().then(function (data) {
+
+   /**
+     * Carrega o Espaço RH somente se o primeiro formulário for preenchido.
+     */
+    if (data.length != 0) {
+      setViewSection();
+    }
+    
+    /**
+     * Mapar o retorno das informações
+     */
     if (!info.isRequestNew() && Array.isArray(data)) {
       data.map((item) => {
         console.log(item);
         if (item.type === 'Boolean' && item.value === 'true') {
           getElement(item.key).checked = item.value;
-        } 
+        }
         getElement(item.key).value = (typeof item.value === 'undefined' ? '' : item.value);
-        
+
       });
     }
   });
 };
 
 function _saveData(data) {
+
   /**
    * Validação campos de inputs
    */
@@ -47,10 +59,11 @@ function _saveData(data) {
         }
       }
     });
-  } else if (!isFormCheckbox()) {
-    getElement('idCHKAV01').setAttribute("class", "form-check-input is-invalid");
-    throw new Error("Esse campo precisa ser preenchido");
-  };
+  }
+  // else if (!isFormCheckbox()) {
+  //   getElement('idCHKAV01').setAttribute("class", "form-check-input is-invalid");
+  //   throw new Error("Esse campo precisa ser preenchido");
+  // };
 
   /**
    * Adiciona as informações em um objeto variável newData para
@@ -98,9 +111,9 @@ function _rollback() {
  * @returns isTextValid: true or false
  */
 
-function isFormCheckbox() {
-  return getElement('idCHKAV01').checked;
-}
+// function isFormCheckbox() {
+//   return getElement('idCHKAV01').checked;
+// }
 
 /**
  * Função para validar se os TextFields foram preenchidos

@@ -60,7 +60,6 @@ function onLoadCheckboxAndTextArea() {
     section.innerHTML += htmlTextArea;
   });
   validationInputText();
-  validationInputCheckbox();
   isCheckedFirstRadio();
   eventTextArea();
   validationSelectItem();
@@ -73,16 +72,13 @@ function onLoadCheckboxAndTextArea() {
 function isCheckedFirstRadio() {
   let indexController = 0;
   var radio = getDynamicElement('input').filter(input => input.type === 'radio');
-  for (let i = 0; i < radio.length; i++){
-   /**
-    * Elimina os radios buttons que já estão setados na seção RH e Síntese com true, e limita o contador a percorrer todo o array
-    * até a última posição do array sem necessidade, assim todos os primeiros radios buttons serão inicializados com true.
-    *  */  
-    if (radio[i].id != 'idRDOSI01' &&
-      radio[i].id != 'idRDORH01' &&
-      indexController <= 36
-    ) {
-      radio[indexController].checked = true;   
+  for (let i = 0; i < radio.length; i++) {
+    /**
+     * Elimina os radios buttons que já estão setados na seção RH e Síntese com true, e limita o contador a percorrer todo o array
+     * até a última posição do array sem necessidade, assim todos os primeiros radios buttons serão inicializados com true.
+     *  */
+    if (indexController <= radio.length - 1) {
+      radio[indexController].checked = true;
     }
     /**
      * Este contador serve para controlar a posição do item dentro do array, neste sentido os primeiros radios buttons são encontrados 
@@ -91,18 +87,18 @@ function isCheckedFirstRadio() {
      */
     indexController = indexController + 4;
   }
-    
+
 }
 
 /**
  * Validação do campo de checkbox Avaliação
  */
-function validationInputCheckbox() {
-  getElement('idCHKAV01').addEventListener('click', function () { 
-    if (this.checked) return getElement('idCHKAV01').setAttribute("class", "form-check-input");
-    return getElement('idCHKAV01').setAttribute("class", "form-check-input is-invalid");
-  });
-}
+// function validationInputCheckbox() {
+//   getElement('idCHKAV01').addEventListener('click', function () { 
+//     if (this.checked) return getElement('idCHKAV01').setAttribute("class", "form-check-input");
+//     return getElement('idCHKAV01').setAttribute("class", "form-check-input is-invalid");
+//   });
+// }
 
 /**
  * VALIDAÇÃO DOS CAMPOS DE TEXTO INFORMAÇÕES GERAIS
@@ -160,4 +156,43 @@ function isEmpty(str) {
  */
 function getTextValue(text) {
   return text;
+}
+
+
+function setViewSection() {
+   /**
+    * Está seção será criada dinamicamente após preencher o primeiro formulário e
+    * só irá aparecer na etapa que o RH precisa preencher.
+    */
+    var sectionEspacoRh = getElement('id-espaco-rh');
+    var sectionEspacoRhHtml = ` <div class="col-md-11">
+                                   <p class="text-start fs-5">ESPAÇO DO RH:</p>
+                                   <p class="text-start fs-6">DE MANEIRA GERAL, COMO O FUNCIONÁRIO PODE SER CLASSIFICADO?</p>
+                                   <div class="form-check mt-1">
+                                     <input class="ml-5 form-check-input" name="nameRDOSDH" type="radio" value="" id="idRDORH01" checked>
+                                     <label class="ml-6 form-check-label"  for="idRDORH01">
+                                       Trata-se de excelente aquisição para a empresa.
+                                     </label>
+                                   </div>
+                                   <div class="form-check mt-1">
+                                     <input class="ml-5 form-check-input" name="nameRDOSDH" type="radio" value="" id="idRDORH02">
+                                     <label class="ml-6 form-check-label"  for="idRDORH02">
+                                       Boa contratação.
+                                     </label>
+                                     <div class="invalid-feedback">
+                                       Este campo precisa ser preenchido.
+                                     </div>
+                                   </div>
+                                   <div class="form-check mt-1">
+                                     <input class="ml-5 form-check-input" name="nameRDOSDH" type="radio" value="" id="idRDORH03">
+                                     <label class="ml-6 form-check-label"  for="idRDORH03">
+                                       Não atende as necessidades da empresa.
+                                     </label>
+                                     <div class="invalid-feedback">
+                                       Este campo precisa ser preenchido.
+                                     </div>
+                                   </div>
+                                  </div>`;
+    sectionEspacoRh.innerHTML += sectionEspacoRhHtml;
+    
 }
